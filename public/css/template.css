@@ -1,0 +1,61 @@
+body {
+    font-family: 'Poppins', sans-serif; /* Menggunakan font Poppins */
+    background-color: #f6f4f0; /* Warna latar belakang */
+    color: #333; /* Warna teks umum */
+}
+.navbar {
+    background-color: #ffffff; /* Warna latar navbar yang lebih gelap */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Bayangan navbar */
+}
+.navbar-brand, .nav-link {
+    color: #fff; /* Warna teks navbar */
+    font-weight: bold; /* Menebalkan teks navbar */
+    padding-left: 15px;
+}
+.nav-link:hover {
+    color: #ffc107; /* Warna saat hover */
+    text-decoration: underline; /* Garis bawah saat hover */
+}
+.btn-custom {
+    margin-left: 10px; /* Jarak antar tombol */
+    border-radius: 10px; /* Membuat tombol lebih bulat */
+    border: 2px solid #b0b0b0; /* Border berwarna */
+    background-color: transparent; /* Warna latar transparan */
+    color: #000000; /* Warna teks tombol */
+}
+.btn-custom:hover {
+    background-color: rgba(0, 86, 179, 0.1); /* Warna latar saat hover */
+}
+.container {
+    margin: 20px auto; /* Menambahkan margin pada kontainer */
+    border-radius: 8px;
+    background-color: #fff; /* Warna latar kontainer */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Bayangan kontainer */
+    padding: 20px; /* Padding kontainer */
+}
+.container-fluid {
+    padding-left: 75px; /* Memberi jarak ke kiri */
+    padding-right: 75px; /* Memberi jarak ke kanan */
+    margin: 10px auto;
+}
+.row {
+    margin-left: 0; /* Memberi jarak kiri */
+    margin-right: 0; /* Memberi jarak kanan */
+}
+h1, h2 {
+    font-weight: bold; /* Menebalkan judul */
+}
+.list-group-item {
+    display: flex;
+    align-items: center;
+    border: none; /* Menghilangkan border */
+    padding: 10px 15px; /* Padding item daftar */
+    transition: background-color 0.3s; /* Transisi saat hover */
+}
+.list-group-item:hover {
+    background-color: #e9ecef; /* Warna saat hover */
+}
+.list-group-item i {
+    margin-right: 10px; /* Jarak antara ikon dan teks */
+    color: #007bff; /* Warna ikon */
+}
