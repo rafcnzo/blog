@@ -20,6 +20,7 @@ class RegisterController extends Controller
         $this->validate($request, [
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users',
+            'role' => 'required|in:owner,member',
             'password' => 'required|string|min:8|confirmed',
         ]);
 
@@ -28,14 +29,14 @@ class RegisterController extends Controller
             'name' => $request->name,
             'email' => $request->email,
             'password' => Hash::make($request->password),
-            'role' => 'member', // default role
+            'role' => $request->role, // default role
         ]);
 
         // Log the user in after registration
         Auth::login($user);
 
         // Redirect the user to the home page
-        return redirect()->route('home');
+        return redirect()->route('welcome');
     }
 }
 

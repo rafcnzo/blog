@@ -15,7 +15,7 @@ class UserSeeder extends Seeder
             'name' => 'Aura',
             'email' => 'admin@example.com',
             'password' => Hash::make('admin123'),
-            'role' => 'admin',
+            'role' => 'owner', // diganti menjadi 'owner'
             'remember_token' => Str::random(10),
             'created_at' => now(),
             'updated_at' => now()

@@ -27,7 +27,8 @@ body {
     border-radius: 20px;
     overflow: hidden;
     box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
-    height: 600px;
+    height: auto;
+    min-height: 600px;
 }
 
 .side-image {
@@ -39,6 +40,7 @@ body {
     align-items: center;
     justify-content: center;
     padding: 40px;
+    min-height: 100%;
 }
 
 .text {
@@ -61,7 +63,7 @@ body {
 }
 
 .right {
-    padding: 60px 40px;
+    padding: 40px;
 }
 
 .input-box {
@@ -74,12 +76,12 @@ body {
     font-size: 28px;
     font-weight: 600;
     color: #333;
-    margin-bottom: 40px;
+    margin-bottom: 30px;
     text-align: center;
 }
 
 .input-field {
-    margin-bottom: 25px;
+    margin-bottom: 20px;
     position: relative;
 }
 
@@ -116,6 +118,36 @@ body {
     color: #4A90E2;
 }
 
+/* Custom styling for select field */
+.role-field {
+    margin-bottom: 20px;
+}
+
+.role-field label {
+    font-size: 13px;
+    color: #999;
+    margin-bottom: 8px;
+    display: block;
+}
+
+.form-select {
+    border: 2px solid #ddd;
+    border-radius: 8px;
+    padding: 10px;
+    width: 100%;
+    font-size: 16px;
+    color: #333;
+    cursor: pointer;
+    background-color: transparent;
+    transition: all 0.3s ease;
+}
+
+.form-select:focus {
+    outline: none;
+    border-color: #4A90E2;
+    box-shadow: none;
+}
+
 .submit {
     width: 100%;
     padding: 14px;
@@ -127,6 +159,7 @@ body {
     font-weight: 500;
     cursor: pointer;
     transition: all 0.3s ease;
+    margin-top: 10px;
 }
 
 .submit:hover {
@@ -137,7 +170,7 @@ body {
 
 .signin {
     text-align: center;
-    margin-top: 30px;
+    margin-top: 20px;
     color: #666;
 }
 
@@ -157,6 +190,7 @@ body {
     font-size: 13px;
     color: #dc3545;
     margin-top: 5px;
+    display: block;
 }
 
 @media only screen and (max-width: 768px) {
@@ -165,12 +199,12 @@ body {
     }
 
     .side-image {
-        min-height: 250px;
+        min-height: 200px;
         border-radius: 20px 20px 0 0;
     }
 
     .right {
-        padding: 40px 20px;
+        padding: 30px 20px;
     }
 
     .text p {
@@ -179,6 +213,6 @@ body {
 
     .input-box header {
         font-size: 24px;
-        margin-bottom: 30px;
+        margin-bottom: 25px;
     }
 }

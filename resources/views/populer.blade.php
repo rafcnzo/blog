@@ -1,6 +1,6 @@
-@extends('layout.template') <!-- Menggunakan layout.blade.php -->
+@extends('layout.template')
 
-@section('title', 'Berita Terbaru') <!-- Mengganti bagian title -->
+@section('title', 'Berita Populer')
 <link rel="stylesheet" href="{{ asset('css/news.css') }}">
 
 @section('navbar')
@@ -49,7 +49,9 @@
         </div>
     </div>
 </nav>
+@parent
 @endsection
+
 @section('content')
 <div class="container">
     @foreach($berita as $item)
@@ -68,23 +70,15 @@
                         {{ $item->judul }}
                     </a>
                 </h4>
-                
-                <!-- Opsi Edit dan Hapus yang sudah dimodifikasi -->
-                @if(Auth::check() && Auth::user()->role === 'owner')
-                <div class="text-muted small mb-2">
-                    <a href="{{ route('news.edit', $item->id_berita) }}" class="text-dark text-decoration-none">Edit</a>
-                    <span class="mx-1">|</span>
-                    <form action="{{ route('news.destroy', $item->id_berita) }}" method="POST" class="d-inline" onsubmit="return confirm('Apakah Anda yakin ingin menghapus berita ini?')">
-                        @csrf
-                        @method('DELETE')
-                        <button type="submit" class="text-dark text-decoration-none border-0 bg-transparent p-0">Hapus</button>
-                    </form>
-                </div>
-                @endif
-
-                <p class="news-meta">
-                    Posted by {{ $item->user->name ?? 'Unknown' }} - 
-                    {{ $item->tanggal ? \Carbon\Carbon::parse($item->tanggal)->format('d M Y') : 'N/A' }}
+                <p class="text-muted">
+                    Posted by {{ $item->user->name }} - 
+                    {{ $item->created_at->format('d M Y') }}
+                    
+                    {{-- Tampilkan jumlah komentar --}}
+                    <span class="ms-2">
+                        <i class="fas fa-comment"></i> 
+                        {{ $item->komentars_count }} Komentar
+                    </span>
                 </p>
                 <p>
                     {{ Str::limit($item->konten, 150) }} 
@@ -94,7 +88,6 @@
         </div>
     </div>
     @endforeach
-
     <div class="d-flex justify-content-center">
         {{ $berita->links() }}
     </div>

@@ -1,0 +1,22 @@
+.news-title {
+    color: #333;
+    text-decoration: none;
+    font-weight: 600;
+    transition: color 0.2s;
+}
+.news-title:hover {
+    color: #0056b3;
+}
+.read-more {
+    color: #0056b3;
+    text-decoration: none;
+    font-weight: 500;
+    transition: color 0.2s;
+}
+.read-more:hover {
+    color: #003d82;
+}
+.news-meta {
+    font-size: 0.9rem;
+    color: #6c757d;
+}

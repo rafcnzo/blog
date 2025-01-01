@@ -1,9 +1,10 @@
 <?php
 
-namespace App\Http\Controllers\Admin;
+namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use App\Models\Berita;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
@@ -11,19 +12,12 @@ use Illuminate\Support\Str;
 
 class NewsController extends Controller
 {
-    public function index()
-{
-    $berita = Berita::select('berita.*', 'users.name')
-        ->leftJoin('users', 'berita.user_id', '=', 'users.user_id')
-        ->orderBy('berita.id_berita', 'asc')
-        ->paginate(10);
-    
-    return view('Admin.newsread', compact('berita'));
-}
-
     public function create()
     {
-        return view('Admin.newscreate');
+        $jumlah_pengguna = User::count();
+        $jumlah_berita = Berita::count();
+        
+        return view('newscreate', compact('jumlah_pengguna', 'jumlah_berita'));
     }
 
     public function store(Request $request)
@@ -38,26 +32,31 @@ class NewsController extends Controller
         if ($request->hasFile('thumbnail')) {
             $file = $request->file('thumbnail');
             $filename = Str::slug($validated['judul']) . '-' . uniqid() . '.' . $file->getClientOriginalExtension();
+            
+            // Simpan di storage/app/public/thumbnails
             $thumbnailPath = $file->storeAs('public/thumbnails', $filename);
-            $thumbnailPath = str_replace('public/', 'storage/', $thumbnailPath);
         }
 
         Berita::create([
             'tanggal' => now(),
             'judul' => $validated['judul'],
             'konten' => $validated['konten'],
-            'thumbnail' => $thumbnailPath,
+            'thumbnail' => $thumbnailPath ? str_replace('public/', '', $thumbnailPath) : null,
             'user_id' => Auth::id()
         ]);
 
-        return redirect()->route('news.index')->with('success', 'Berita berhasil ditambahkan');
+        return redirect()->route('welcome')->with('success', 'Berita berhasil ditambahkan');
     }
 
     public function edit($id)
     {
-        $berita = Berita::findOrFail($id);
-        return view('Admin.newsedit', compact('berita'));
+    $berita = Berita::findOrFail($id);
+    $jumlah_pengguna = User::count();
+    $jumlah_berita = Berita::count();
+        
+    return view('newsedit', compact('berita','jumlah_pengguna', 'jumlah_berita'));
     }
+
 
     public function update(Request $request, $id)
     {
@@ -72,35 +71,29 @@ class NewsController extends Controller
         if ($request->hasFile('thumbnail')) {
             // Hapus thumbnail lama jika ada
             if ($berita->thumbnail) {
-                Storage::delete(str_replace('storage/', 'public/', $berita->thumbnail));
+                Storage::delete('public/' . $berita->thumbnail);
             }
 
             $file = $request->file('thumbnail');
             $filename = Str::slug($validated['judul']) . '-' . uniqid() . '.' . $file->getClientOriginalExtension();
             $thumbnailPath = $file->storeAs('public/thumbnails', $filename);
-            $thumbnailPath = str_replace('public/', 'storage/', $thumbnailPath);
 
-            $berita->thumbnail = $thumbnailPath;
+            $berita->thumbnail = str_replace('public/', '', $thumbnailPath);
         }
 
         $berita->judul = $validated['judul'];
         $berita->konten = $validated['konten'];
         $berita->save();
 
-        return redirect()->route('news.index')->with('success', 'Berita berhasil diperbarui');
+        return redirect()->route('welcome')->with('success', 'Berita berhasil diperbarui');
     }
 
-    public function delete($id)
+    public function destroy($id)
     {
         $berita = Berita::findOrFail($id);
-
-        // Hapus thumbnail jika ada
-        if ($berita->thumbnail) {
-            Storage::delete(str_replace('storage/', 'public/', $berita->thumbnail));
-        }
-
         $berita->delete();
-
-        return redirect()->route('news.index')->with('success', 'Berita berhasil dihapus');
+    
+        return redirect()->route('welcome')->with('success', 'Berita berhasil dihapus.');
     }
+    
 }

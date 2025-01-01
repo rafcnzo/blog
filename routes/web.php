@@ -3,40 +3,34 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\Admin\UserController;
-use App\Http\Controllers\Admin\NewsController;
+use App\Http\Controllers\NewsController;
+use App\Http\Controllers\WelcomeController;
+use App\Http\Controllers\KomentarController;
+use App\Http\Controllers\BeritaPopulerController;
 
 // Home route untuk halaman utama
-Route::get('/', function () {
-    return view('welcome');
-});
+// Ubah route welcome menjadi
+Route::get('/', [WelcomeController::class, 'index'])->name('welcome');
+Route::get('/detail/{id}', [WelcomeController::class, 'show'])->name('detail');
 
-Route::middleware(['auth'])->group(function () {
-    Route::get('/home', function () {
-        return view('member.member');
-    })->name('home');
+Route::get('/berita-populer', [BeritaPopulerController::class, 'index'])
+    ->name('berita.populer');
 
-    Route::get('/berita', function () {
-        return view('Admin.newsread');})->name('news');
-    Route::get('/tambahberita', function () {
-        return view('Admin.newscreate');})->name('createnews');
-});
-
-Route::middleware(['auth', 'role:admin'])->group(function () {
-    Route::get('/dashboard', function () {return view('Admin.dashboard');})->name('dashboard');
-
-    Route::get('/userread', [UserController::class, 'index'])->name('user.index');
-    Route::get('/usercreate', [UserController::class, 'create'])->name('user.create');
-    Route::post('/userstore', [UserController::class, 'store'])->name('user.store');
-    Route::get('/useredit/{email}', [UserController::class, 'edit'])->name('user.edit');
-    Route::put('/userupdate/{email}', [UserController::class, 'update'])->name('user.update');
-    Route::delete('/userdelete/{email}', [UserController::class, 'delete'])->name('user.delete');
-
-    Route::get('/news', [NewsController::class, 'index'])->name('news.index');
+Route::middleware(['auth', 'role:owner'])->group(function () {
     Route::get('/news/create', [NewsController::class, 'create'])->name('news.create');
     Route::post('/news/store', [NewsController::class, 'store'])->name('news.store');
-    Route::get('/news/edit/{id}', [NewsController::class, 'edit'])->name('news.edit');
+    Route::get('/news/{id}/edit', [NewsController::class, 'edit'])->name('news.edit');
     Route::put('/news/update/{id}', [NewsController::class, 'update'])->name('news.update');
-    Route::delete('/news/delete/{id}', [NewsController::class, 'delete'])->name('news.delete');
+    Route::delete('/news/{id}', [NewsController::class, 'destroy'])->name('news.destroy');
+});
+
+// Rute untuk komentar
+Route::middleware(['auth'])->group(function() {
+    Route::post('/komentar/{beritaId}', [KomentarController::class, 'store'])
+        ->name('komentar.store');
+    
+    Route::delete('/komentar/{komentarId}', [KomentarController::class, 'delete'])
+        ->name('komentar.delete');
 });
 
 

@@ -24,12 +24,9 @@ class LoginController extends Controller
         if (Auth::attempt($credentials)) {
             $user = Auth::user();
             \Log::info('User logged in: ', ['user' => $user]);
-    
-            if ($user->role === 'admin') {
-                return redirect()->route('dashboard');
-            } elseif ($user->role === 'member') {
-                return redirect()->route('home');
-            }
+            
+            return redirect()->route('welcome');
+            
         }
     
         \Log::warning('Login failed for credentials: ', $credentials);
