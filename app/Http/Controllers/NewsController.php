@@ -25,7 +25,7 @@ class NewsController extends Controller
         $validated = $request->validate([
             'judul' => 'required|max:255',
             'konten' => 'required',
-            'thumbnail' => 'image|mimes:jpeg,png,jpg|max:2048|nullable'
+            'thumbnail' => 'image|mimes:jpeg,png,jpg|max:2048|required'
         ]);
 
         $thumbnailPath = null;

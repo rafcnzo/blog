@@ -8,7 +8,7 @@ use App\Http\Controllers\WelcomeController;
 use App\Http\Controllers\KomentarController;
 use App\Http\Controllers\BeritaPopulerController;
 
-// Home route untuk halaman utama
+
 // Ubah route welcome menjadi
 Route::get('/', [WelcomeController::class, 'index'])->name('welcome');
 Route::get('/detail/{id}', [WelcomeController::class, 'show'])->name('detail');
